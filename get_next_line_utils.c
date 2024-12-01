@@ -6,87 +6,81 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 08:25:20 by oait-si-          #+#    #+#             */
-/*   Updated: 2024/11/29 11:27:50 by oait-si-         ###   ########.fr       */
+/*   Updated: 2024/12/01 16:31:14 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-size_t  ft_strlen(char  *s)
+#include "get_next_line.h"
+
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-    size_t  i;
-    if(!s)
-        return (0);
-    while(s[i] != '\0')
-        i++;
-    return (i);
+	int		sizetotal;
+	char	*res;
+	int		i;
+	int		j;
+
+	i = 0;
+	sizetotal = ft_strlen(s1) + ft_strlen(s2);
+	res = malloc(sizeof(char) * (sizetotal + 1));
+	if (!res || !s1 || !s2)
+		return (NULL);
+	while (s1[i] != 0)
+	{
+		res[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (s2[j] != 0)
+	{
+		res[i] = s2[j];
+		i++;
+		j++;
+	}
+	res[sizetotal] = 0;
+	return (res);
 }
 
-char    *ft_strchr(char *s, int c)
+char	*ft_strchr(const char *string, int searchedChar )
 {
-    int i;
-    i = 0;
-    if(!s)
-        return NULL; 
-    if(c == '\0')
-            return((char *)&s(ft_strlen(s)));
-    while(s[i])
-    {
-        if(s[i] == (char)c)
-            return((char *)s +i);
-        i++;
-    }
-    return NULL;
-}
-
-static int  ft_strjoin_lenght(char  const *s1, char const   *s2)
-{
-    size_t  len_s1;
-    size_t  len_s2;
-    
-    len_s1 = 0;
-    len_s2 = 0;
-    if(s1)
-        len_s1 = ft_strlen(s1);
-    if(s2)
-        len_s2 = ft_strlen(s2);
-    return(len_s1 + len_s2); 
-}
-
-static void ft_strjoin_contact(char *new, char const *s1, char const *s2)
-{
-    size_t  i;
-    size_t  j;
-    
-    i = 0;
-    if(s1)
-    {
-        while(s1[i])
-        {
-            new[i] = s1[i];
-            i++;
-        }
-    }
-    j = 0;
-    if(s2)
-    {
-        while(s2[j])
-        {
-            new[i] = s2[j];
-            i++;
-            j++;
-        }
-    }
-    new[i] = '\0';
-}
- 
-char    *ft_strjoin(const char *s1, const char *s2)
-{
-    char    *new;
-    int     total_len;
-
-    total_len = ft_strjoin_lenght(s1, s2);
-    new = (char *)malloc(sizeof(char)*(total_len +1));
-    if(!new)
+    while (*string != searchedChar && *string != '\0')
+        string++;
+    if (*string == searchedChar)
+        return (char *)string; 
+    else
         return (NULL);
-    ft_strjoin_contact(new, s1, s2);
-    return(new);
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	char	*str;
+	size_t	i;
+
+	str = (char *)s;
+	i = 0;
+	while (i < n)
+	{
+		str[i] = '\0';
+		i++;
+	}
+}
+
+void	*ft_calloc(size_t elementCount, size_t elementSize)
+{
+	char	*res;
+
+	res = malloc(elementSize * elementCount);
+	if (!res)
+		return (NULL);
+	ft_bzero(res, elementSize * elementCount);
+	return (res);
+}
+
+size_t	ft_strlen(char *theString)
+{
+	size_t	i;
+
+	i = 0;
+	while (theString[i])
+		i++;
+	return (i);
 }
