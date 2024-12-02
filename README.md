@@ -5,7 +5,8 @@
 
 # Functions in Detail
 ## 1. ft_free
-Purpose: Combines the existing buffer (buffer) with newly read data (buf) and frees the old buffer to avoid memory leaks.
+**Purpose**: 
+            Combines the existing buffer (buffer) with newly read data (buf) and frees the old buffer to avoid memory leaks.
 
 ### Key Steps:
 Combines buffer and buf using ft_strjoin.
@@ -14,7 +15,8 @@ Returns the newly created string.
 
 
 ## 3. ft_next
-Purpose: Updates the buffer to keep only the unprocessed part of the data (the part after the newline).
+**Purpose**: 
+            Updates the buffer to keep only the unprocessed part of the data (the part after the newline).
 
 ### Key Steps:
 Locates the newline (\n) in the buffer.
@@ -25,7 +27,8 @@ Returns the updated buffer.
 
 
 ## 5. ft_line
-Purpose: Extracts a single line (up to and including the newline) from the buffer.
+**Purpose**:
+          Extracts a single line (up to and including the newline) from the buffer.
 
 ### Key Steps:
 Locates the end of the first line (up to \n or the end of the string).
@@ -36,7 +39,8 @@ Returns the extracted line.
 
 
 ## 7. read_file
-Purpose: Reads data from the file descriptor (fd) and appends it to the existing buffer (res).
+**Purpose**:
+            Reads data from the file descriptor (fd) and appends it to the existing buffer (res).
 
 Key Steps:
 Allocates a temporary buffer (buffer) for reading.
@@ -48,7 +52,8 @@ Frees the temporary buffer and returns the updated res.
 
 
 ## 9. get_next_line
-Purpose: The main function that combines all the helper functions to return a single line from a file descriptor.
+**Purpose**: 
+            The main function that combines all the helper functions to return a single line from a file descriptor.
 
 ### Key Steps:
 Validates the file descriptor (fd) and BUFFER_SIZE.
