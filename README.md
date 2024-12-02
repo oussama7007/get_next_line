@@ -9,7 +9,7 @@
             Combines the existing buffer (buffer) with newly read data (buf) and frees the old buffer to avoid memory leaks.
 
 ### Key Steps:
-Combines buffer and buf using ft_strjoin.
+Combines buffer and buf using ft_strjoin.\n
 Frees the memory of the old buffer.
 Returns the newly created string.
 
