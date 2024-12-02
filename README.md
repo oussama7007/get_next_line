@@ -54,16 +54,18 @@ Updates the buffer to hold only the remaining data after the newline using ft_ne
 Returns the extracted line.
 
 
-##Static Variable
+#Static Variable
 The buffer is declared as a static char*. This means its value persists between calls to get_next_line. This is essential because:
 It allows the function to keep track of leftover data that was not processed in the previous call.
 
-##How It All Comes Together
+#How It All Comes Together
 On the first call to get_next_line, the file is read into the buffer.
 The first line is extracted and returned. The buffer is updated to hold the leftover data.
 On subsequent calls, the process repeats using the leftover data from the buffer and reading more from the file if necessary.
 When no more data is left, the function returns NULL.
-Memory Management
+
+
+#Memory Management
 Memory is dynamically allocated for the buffer, the lines, and temporary storage.
 Every allocated memory is freed once it is no longer needed to prevent memory leaks.
 The leaks tool checks for unfreed memory, ensuring the implementation is clean.
