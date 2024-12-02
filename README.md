@@ -1,3 +1,8 @@
+
+
+![Uploading th.jpg…]()
+
+
 # Functions in Detail
 ## 1. ft_free
 Purpose: Combines the existing buffer (buffer) with newly read data (buf) and frees the old buffer to avoid memory leaks.
