@@ -129,6 +129,7 @@ char	*read_file(int fd, char *res)
 		if (byte_read == -1)
 		{
 			free(buffer);
+			free(res);
 			return (NULL);
 		}
 
@@ -158,8 +159,14 @@ char	*get_next_line(int fd)
 
 	// Return NULL if the file descriptor is invalid or BUFFER_SIZE is not positive
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	{	
+		if(buffer)
+		{
+			free(buffer);
+			buffer = NULL;
+		}
 		return (NULL);
-
+	}
 	// Read from the file and update the buffer with new data
 	buffer = read_file(fd, buffer);
 
