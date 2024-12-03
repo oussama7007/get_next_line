@@ -57,10 +57,10 @@ Frees the temporary buffer and returns the updated res.
 
 ### Key Steps:
 Validates the file descriptor (fd) and BUFFER_SIZE.
-Calls read_file to read data into the static buffer.
+Calls read_file() to read data into the static buffer.
 If the buffer is NULL, it means there's no more data to read, and the function returns NULL.
-Extracts a single line from the buffer using ft_line.
-Updates the buffer to hold only the remaining data after the newline using ft_next.
+Extracts a single line from the buffer using ft_line().
+Updates the buffer to hold only the remaining data after the newline using ft_next().
 Returns the extracted line.
 
 
