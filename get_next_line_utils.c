@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 08:25:20 by oait-si-          #+#    #+#             */
-/*   Updated: 2024/12/01 17:01:12 by oait-si-         ###   ########.fr       */
+/*   Updated: 2024/12/02 10:55:22 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	*ft_calloc(size_t elementCount, size_t elementSize)
  * 
  * Returns the number of characters in the string, not including the null terminator.
  */
-size_t	ft_strlen(char *theString)
+size_t	ft_strlen(const char *theString)
 {
 	size_t	i;
 
