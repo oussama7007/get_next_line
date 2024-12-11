@@ -6,180 +6,113 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 12:17:40 by oait-si-          #+#    #+#             */
-/*   Updated: 2024/12/03 15:53:16 by oait-si-         ###   ########.fr       */
+/*   Updated: 2024/12/11 08:23:54 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-// Concatenate the buffer and the new data (buf), then free the original buffer
-char	*ft_free(char *buffer, char *buf)
-{
-	char	*temp;
-
-	// Join the existing buffer with the new buffer (buf)
-	temp = ft_strjoin(buffer, buf);
-
-	// Free the old buffer to prevent memory leaks
-	free(buffer);
-
-	// Return the newly concatenated string
-	return (temp);
-}
-
-// This function processes the remaining data in the buffer after extracting a line
-char	*ft_next(char *buffer)
+char	*next_line(char *buffer)
 {
 	int		i;
+	char	*new_line;
 	int		j;
-	char	*line;
 
-	// Start scanning from the beginning of the buffer
 	i = 0;
-
-	// Find the position of the newline character or end of the buffer
+	j = 0;
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
-
-	// If no newline was found, it means the buffer is empty or fully processed
 	if (!buffer[i])
-	{
-		// Free the buffer since it has no remaining data
-		free(buffer);
-		return (NULL);
-	}
-
-	// Allocate memory for the remaining part of the buffer (after the newline)
-	line = ft_calloc((ft_strlen(buffer) - i + 1), sizeof(char));
-
-	// Skip the newline character
+		return (free(buffer), buffer = NULL, NULL);
+	new_line = malloc(ft_strlen(buffer) - i + 1);
+	if (!new_line)
+		return (free(buffer), buffer = NULL, NULL);
 	i++;
-	j = 0;
-
-	// Copy the remaining data after the newline into the new line buffer
 	while (buffer[i])
-		line[j++] = buffer[i++];
-
-	// Free the original buffer as it is no longer needed
+		new_line[j++] = buffer[i++];
+	new_line[j] = '\0';
 	free(buffer);
-
-	// Return the remaining data to be processed
-	return (line);
+	return (new_line);
 }
 
-// This function extracts the current line from the buffer, including the newline
-char	*ft_line(char *buffer)
+char	*new_line(char *buffer)
 {
 	char	*line;
 	int		i;
 
-	// Initialize the index variable
 	i = 0;
-
-	// If the buffer is empty, return NULL
-	if (!buffer[i])
+	if (!buffer[0] || !buffer)
 		return (NULL);
-
-	// Find the end of the first line (stop at '\n' or end of string)
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
-
-	// Allocate memory for the extracted line, including space for the newline if present
-	line = ft_calloc(i + 2, sizeof(char));
-
-	// Copy the characters of the line from the buffer to the new line
+	if (buffer[i] == '\n')
+		i++;
+	line = malloc(i + 1);
+	if (!line)
+		return (NULL);
 	i = 0;
 	while (buffer[i] && buffer[i] != '\n')
 	{
 		line[i] = buffer[i];
 		i++;
 	}
-
-	// If a newline is found, append it to the extracted line
-	if (buffer[i] && buffer[i] == '\n')
+	if (buffer[i] == '\n')
 		line[i++] = '\n';
-
-	// Return the extracted line
+	line[i] = '\0';
 	return (line);
 }
 
-// This function reads from the file descriptor and stores the data in the result buffer
-char	*read_file(int fd, char *res) 
+char	*read_file(int fd, char *static_buffer)
 {
 	char	*buffer;
-	int		byte_read;
+	int		bytes;
+	char	*temp;
 
-	// If res is NULL, initialize it to an empty string
-	if (!res)
-		res = ft_calloc(1, 1);
-
-	// Allocate a temporary buffer for reading from the file
-	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-
-	// Initialize byte_read to enter the loop
-	byte_read = 1;
-
-	// Loop to continuously read from the file until all data is processed
-	while (byte_read > 0)
+	bytes = 1;
+	buffer = malloc(sizeof(char) * ((size_t)BUFFER_SIZE + 1));
+	if (!buffer)
+		return (free(static_buffer), static_buffer = NULL, NULL);
+	while (bytes != 0)
 	{
-		// Read up to BUFFER_SIZE bytes from the file descriptor
-		byte_read = read(fd, buffer, BUFFER_SIZE);
-
-		// If read failed (e.g., due to an error), free the buffer and return NULL
-		if (byte_read == -1)
-		{
-			free(buffer);
-			free(res);
-			return (NULL);
-		}
-
-		// Null-terminate the string to safely handle the data
-		buffer[byte_read] = 0;
-
-		// Concatenate the new data (buffer) with the result (res) using ft_free
-		res = ft_free(res, buffer);
-
-		// If a newline character is found in the buffer, stop reading further
-		if (ft_strchr(buffer, '\n'))
+		bytes = read(fd, buffer, BUFFER_SIZE);
+		if (bytes < 0)
+			return (free(buffer), free(static_buffer),
+				static_buffer = NULL, NULL);
+		buffer[bytes] = '\0';
+		temp = static_buffer;
+		static_buffer = ft_strjoin(static_buffer, buffer);
+		if (!static_buffer)
+			return (free(buffer), free(temp), temp = NULL, NULL);
+		free(temp);
+		if (ft_strchr(static_buffer, '\n'))
 			break ;
 	}
-
-	// Free the temporary buffer as it is no longer needed
 	free(buffer);
-
-	// Return the updated result string with the newly read data
-	return (res);
+	return (static_buffer);
 }
 
-// Main function to get the next line from the file descriptor
 char	*get_next_line(int fd)
 {
-	static char	*buffer; // Static buffer to store leftover data between function calls
+	static char	*buffer;
 	char		*line;
 
-	// Return NULL if the file descriptor is invalid or BUFFER_SIZE is not positive
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
-	{	
-		if(buffer)
-		{
-			free(buffer);
-			buffer = NULL;
-		}
+	if (fd < 0 || fd > OPEN_MAX || BUFFER_SIZE <= 0
+		|| read(fd, 0, 0) < 0 || BUFFER_SIZE > INT_MAX)
+	{
+		free(buffer);
+		buffer = NULL;
 		return (NULL);
 	}
-	// Read from the file and update the buffer with new data
 	buffer = read_file(fd, buffer);
-
-	// If no data was read, return NULL (end of file or error)
 	if (!buffer)
+		return (free(buffer), buffer = NULL, NULL);
+	line = new_line(buffer);
+	if (!line || *line == 0)
+	{
+		free(buffer);
+		buffer = NULL;
 		return (NULL);
-
-	// Extract the next line from the buffer
-	line = ft_line(buffer);
-
-	// Update the buffer to contain the remaining data (after the line)
-	buffer = ft_next(buffer);
-
-	// Return the extracted line
+	}
+	buffer = next_line(buffer);
 	return (line);
 }
