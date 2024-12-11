@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 12:17:40 by oait-si-          #+#    #+#             */
-/*   Updated: 2024/12/11 08:23:54 by oait-si-         ###   ########.fr       */
+/*   Updated: 2024/12/11 08:36:31 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	*get_next_line(int fd)
 	static char	*buffer;
 	char		*line;
 
-	if (fd < 0 || fd > OPEN_MAX || BUFFER_SIZE <= 0
+	if (fd < 0 || BUFFER_SIZE <= 0
 		|| read(fd, 0, 0) < 0 || BUFFER_SIZE > INT_MAX)
 	{
 		free(buffer);
@@ -107,12 +107,6 @@ char	*get_next_line(int fd)
 	if (!buffer)
 		return (free(buffer), buffer = NULL, NULL);
 	line = new_line(buffer);
-	if (!line || *line == 0)
-	{
-		free(buffer);
-		buffer = NULL;
-		return (NULL);
-	}
 	buffer = next_line(buffer);
 	return (line);
 }
