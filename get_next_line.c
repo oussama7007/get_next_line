@@ -6,13 +6,13 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 12:17:40 by oait-si-          #+#    #+#             */
-/*   Updated: 2024/12/11 20:15:54 by oait-si-         ###   ########.fr       */
+/*   Updated: 2024/12/12 08:57:42 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*next_line(char *buffer)
+char	*next__line(char *buffer)
 {
 	int		i;
 	char	*new_line;
@@ -35,7 +35,7 @@ char	*next_line(char *buffer)
 	return (new_line);
 }
 
-char	*new_line(char *buffer)
+char	*new__line(char *buffer)
 {
 	char	*line;
 	int		i;
@@ -62,7 +62,7 @@ char	*new_line(char *buffer)
 	return (line);
 }
 
-char	*read_file(int fd, char *static_buffer)
+char	*read__file(int fd, char *static_buffer)
 {
 	char	*buffer;
 	int		bytes;
@@ -103,12 +103,12 @@ char	*get_next_line(int fd)
 		buffer = NULL;
 		return (NULL);
 	}
-	buffer = read_file(fd, buffer);
+	buffer = read__file(fd, buffer);
 	if (!buffer)
 		return (free(buffer), buffer = NULL, NULL);
-	line = new_line(buffer);
-	if (!line)
+	line = new__line(buffer);
+	if (!line )
 		return (free(buffer), buffer = NULL, NULL);
-	buffer = next_line(buffer);
+	buffer = next__line(buffer);
 	return (line);
 }

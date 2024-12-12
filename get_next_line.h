@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:44:22 by oait-si-          #+#    #+#             */
-/*   Updated: 2024/12/11 20:15:16 by oait-si-         ###   ########.fr       */
+/*   Updated: 2024/12/12 08:57:42 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@
 char	*get_next_line(int fd);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strchr(const char *string, int searchedChar);
-char	*read_file(int fd, char *static_buffer);
-char	*new_line(char *buffer);
-char	*next_line(char *buffer);
+char	*read__file(int fd, char *static_buffer);
+char	*new__line(char *buffer);
+char	*next__line(char *buffer);
 size_t	ft_strlen(const char *theString);
 
 #endif

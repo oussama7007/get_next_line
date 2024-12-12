@@ -6,13 +6,13 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 08:30:29 by oait-si-          #+#    #+#             */
-/*   Updated: 2024/12/11 20:12:14 by oait-si-         ###   ########.fr       */
+/*   Updated: 2024/12/12 08:58:09 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-char	*new_line(char *static_buffer)
+char	*new__line(char *static_buffer)
 {
 	char	*line;
 	int		i;
@@ -39,7 +39,7 @@ char	*new_line(char *static_buffer)
 	return (line);
 }
 
-char	*next_line(char *static_buffer)
+char	*next__line(char *static_buffer)
 {
 	char	*new_line;
 	int		i;
@@ -62,7 +62,7 @@ char	*next_line(char *static_buffer)
 	return (new_line);
 }
 
-char	*read_file(int fd, char **static_buffer)
+char	*read__file(int fd, char **static_buffer)
 {
 	char	*buffer;
 	int		bytes;
@@ -98,12 +98,12 @@ char	*get_next_line(int fd)
 	if (fd < 0 || fd > OPEN_MAX || BUFFER_SIZE > INT_MAX || BUFFER_SIZE < 0
 		|| read(fd, 0, 0) < 0)
 		return (free(buffer[fd]), buffer[fd] = NULL, NULL);
-	buffer[fd] = read_file(fd, &buffer[fd]);
+	buffer[fd] = read__file(fd, &buffer[fd]);
 	if (!buffer[fd])
 		return (free(buffer[fd]), buffer[fd] = NULL, NULL);
-	line = new_line(buffer[fd]);
+	line = new__line(buffer[fd]);
 	if (!line || *line == 0)
 		return (free(buffer[fd]), buffer[fd] = NULL, NULL);
-	buffer[fd] = next_line(buffer[fd]);
+	buffer[fd] = next__line(buffer[fd]);
 	return (line);
 }
