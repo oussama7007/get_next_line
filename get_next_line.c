@@ -6,13 +6,13 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 12:17:40 by oait-si-          #+#    #+#             */
-/*   Updated: 2024/12/12 08:57:42 by oait-si-         ###   ########.fr       */
+/*   Updated: 2024/12/17 11:39:25 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*next__line(char *buffer)
+char	*next_line(char *buffer)
 {
 	int		i;
 	char	*new_line;
@@ -23,10 +23,10 @@ char	*next__line(char *buffer)
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
 	if (!buffer[i])
-		return (free(buffer), NULL);
+		return (free(buffer), buffer = NULL, NULL);
 	new_line = malloc(ft_strlen(buffer) - i + 1);
 	if (!new_line)
-		return (free(buffer), NULL);
+		return (free(buffer), buffer = NULL, NULL);
 	i++;
 	while (buffer[i])
 		new_line[j++] = buffer[i++];
@@ -35,7 +35,7 @@ char	*next__line(char *buffer)
 	return (new_line);
 }
 
-char	*new__line(char *buffer)
+char	*new_line(char *buffer)
 {
 	char	*line;
 	int		i;
@@ -62,7 +62,7 @@ char	*new__line(char *buffer)
 	return (line);
 }
 
-char	*read__file(int fd, char *static_buffer)
+char	*read_file(int fd, char *static_buffer)
 {
 	char	*buffer;
 	int		bytes;
@@ -76,7 +76,7 @@ char	*read__file(int fd, char *static_buffer)
 	{
 		bytes = read(fd, buffer, BUFFER_SIZE);
 		if (bytes < 0)
-			return (free(buffer), NULL);
+			return (free(buffer), free(static_buffer), NULL);
 		buffer[bytes] = '\0';
 		temp = static_buffer;
 		static_buffer = ft_strjoin(static_buffer, buffer);
@@ -96,19 +96,14 @@ char	*get_next_line(int fd)
 	static char	*buffer;
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0
-		|| BUFFER_SIZE > INT_MAX)
-	{
-		free(buffer);
-		buffer = NULL;
+	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE > INT_MAX)
 		return (NULL);
-	}
-	buffer = read__file(fd, buffer);
+	buffer = read_file(fd, buffer);
 	if (!buffer)
 		return (free(buffer), buffer = NULL, NULL);
-	line = new__line(buffer);
-	if (!line )
+	line = new_line(buffer);
+	if (!line)
 		return (free(buffer), buffer = NULL, NULL);
-	buffer = next__line(buffer);
+	buffer = next_line(buffer);
 	return (line);
 }

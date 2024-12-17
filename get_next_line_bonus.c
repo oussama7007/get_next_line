@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 08:30:29 by oait-si-          #+#    #+#             */
-/*   Updated: 2024/12/12 08:58:09 by oait-si-         ###   ########.fr       */
+/*   Updated: 2024/12/16 10:32:38 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,9 @@ char	*get_next_line(int fd)
 	static char	*buffer[OPEN_MAX];
 	char		*line;
 
-	if (fd < 0 || fd > OPEN_MAX || BUFFER_SIZE > INT_MAX || BUFFER_SIZE < 0
-		|| read(fd, 0, 0) < 0)
+	if (fd >= OPEN_MAX || fd < 0)
+		return (NULL);
+	if (BUFFER_SIZE > INT_MAX || BUFFER_SIZE < 0 || read(fd, 0, 0) < 0)
 		return (free(buffer[fd]), buffer[fd] = NULL, NULL);
 	buffer[fd] = read__file(fd, &buffer[fd]);
 	if (!buffer[fd])

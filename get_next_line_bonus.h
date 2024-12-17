@@ -6,7 +6,7 @@
 /*   By: oait-si- <oait-si-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 19:33:10 by oait-si-          #+#    #+#             */
-/*   Updated: 2024/12/12 08:58:09 by oait-si-         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:26:30 by oait-si-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 10
+
 # endif
 
 char	*get_next_line(int fd);
